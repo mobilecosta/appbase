@@ -8,6 +8,7 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { PoHttpRequestModule } from '@po-ui/ng-components';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { TokenHttpInterceptor } from './core/interceptors/token-http.interceptor';
+import { PoStorageModule } from '@po-ui/ng-storage';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,7 +22,7 @@ export const appConfig: ApplicationConfig = {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenHttpInterceptor,
       multi: true
-    }
+    }, importProvidersFrom(PoStorageModule.forRoot())
   ],
 
 };

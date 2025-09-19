@@ -46,17 +46,17 @@ export class MainLayoutComponent implements OnInit {
       icon: 'an an-git-pull-request',
       shortLabel: 'Novo Contrato',
     },
-    // {
-    //   label: 'Novo Contrato',
-    //   link: '/contract-management/contract-item/add',
-    //   icon: 'an an-plus',
-    //   shortLabel: 'Novo Contrato',
-    // },
     {
-      label: 'Central de Contratos',
+      label: 'Novo Contrato',
+      link: '/contract-management/contract-item/add',
+      icon: 'an an-plus',
+      shortLabel: 'Novo Contrato',
+    },
+    {
+      label: 'Central de Notas',
       link: '/contract-center',
       icon: 'an an-archive',
-      shortLabel: 'Central de Contratos',
+      shortLabel: 'Central de Notas',
     },
   ];
 

@@ -1,6 +1,9 @@
 # appbase
-Estrutura de aplicativo - Mecanismo de Login (Autenticação), Crud de Usuários e Formulários de Clientes Modelo
+Estrutura de aplicativo - utilizando framework https://po-ui.io/
 
+- Mecanismo de Login (Autenticação)
+- Crud de Usuários
+- Formulários de Clientes Modelo
 
 ## BackEnd
 

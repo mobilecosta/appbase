@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { PoModule, PoNotificationService, PoPageModule } from '@po-ui/ng-components';
-import { PoStorageService } from '@po-ui/ng-storage';
-import { PoPageLogin, PoPageLoginAuthenticationType, PoPageLoginLiterals, PoPageLoginModule } from '@po-ui/ng-templates';
-import { LoginService } from '../../core/services/login.service';
 import { SharedModule } from '../../shared/shared.module';
-
+import { PoModule, PoPageModule } from '@po-ui/ng-components';
+import { PoPageLoginAuthenticationType, PoPageLoginLiterals, PoPageLoginModule } from '@po-ui/ng-templates';
+import { StorageService } from '../../core/services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -27,38 +25,14 @@ export class LoginComponent {
   };
   
 
-  constructor(
-    private loginService: LoginService,
-    private router: Router,
-    private storage: PoStorageService,
-    private poNotification: PoNotificationService
-  ) { }
+  constructor(private storageService: StorageService, private router: Router) { }
 
- loginSubmit(formData: PoPageLogin) {
-    const user = Object.assign({
-      username: formData.login,
-      password: formData.password,
-    });
-
-    this.loginService.postWithPath("login", user).subscribe(
-      () => {
-        this.storage.set("isLoggedIn", "true").then(() => {
-          this.router.navigate(["/"]);
-        });
-      },
-      () => {
-        this.poNotification.error(
-          "Invalid username or password. Please try again."
-        );
-      }
-    );
+  login(event: any) {
+    if (event.login === 'admin' && event.password === '123456') {
+      const profile = { name: 'Joaquim Martins'};
+      const profiBase64 = btoa(JSON.stringify(profile));
+      this.storageService.setToken(profiBase64);
+      this.router.navigate(['/dashboard']);
+    }
   }
-  // login(event: any) {
-  //   if (event.login === 'admin' && event.password === '123456') {
-  //     const profile = { name: 'Joaquim Martins'};
-  //     const profiBase64 = btoa(JSON.stringify(profile));
-  //     this.storageService.setToken(profiBase64);
-  //     this.router.navigate(['/dashboard']);
-  //   }
-  // }
 }

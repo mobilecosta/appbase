@@ -1,22 +1,17 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+// import { Injectable } from '@angular/core';
+// import { HttpClient } from '@angular/common/http';
+// import { Observable } from 'rxjs';
 
-import { PoStorageService } from '@po-ui/ng-storage';
+// @Injectable({
+//   providedIn: 'root'
+// })
+// export class LoginService {
+//   private apiUrl = '/api/UserApp/login'; // endpoint da API
 
-import { GenericService } from './generic.service';
-import { User } from '../../features/model/user';
+//   constructor(private http: HttpClient) {}
 
-@Injectable()
-export class LoginService extends GenericService<User> {
-
-  override path = 'auth';
-
-  constructor(http: HttpClient, private storage: PoStorageService) {
-    super(http);
-  }
-
-  isLoggedIn(): Promise<any> {
-    return this.storage.get('isLoggedIn');
-  }
-
-}
+//   login(username: string, password: string): Observable<any> {
+//     const body = { username, password };
+//     return this.http.post<any>(this.apiUrl, body);
+//   }
+// }

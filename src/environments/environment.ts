@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiEndpointPath: 'https://httpbin.org/',
+  apiEndpointPath: 'https://httpbin.org',
+  // apiEndpointPath: 'https://www.freeprojectapi.com',
   username: '',
   password: '',
   wso2TokenUrl: '',

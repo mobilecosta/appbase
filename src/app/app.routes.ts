@@ -5,19 +5,19 @@ import { authGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './features/login/login.component';
 
 export const APP_ROUTES: Routes = [
-     {
-    path: 'login',
-    component: LoginComponent,
-  },
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
   },
   {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [],
+    canActivate: [authGuard],
     children: [
       {
         path: 'dashboard',
@@ -36,12 +36,7 @@ export const APP_ROUTES: Routes = [
       {
         path: 'contract-management',
         children: CONTRACT_MANAGEMENT_ROUTES,
-      },
-      // {
-      //   path: '',
-      //   redirectTo: 'dashboard',
-      //   pathMatch: 'full',
-      // },
+      }
     ],
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },

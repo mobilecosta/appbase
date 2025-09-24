@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "third-party-contracts-portal": {
+    "appbase-po-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/third-party-contracts-portal",
+            "outputPath": "dist/appbase-po-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -77,13 +77,16 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "buildTarget": "appbase-po-ui:build"
+          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "third-party-contracts-portal:build:production"
+              "buildTarget": "appbase-po-ui:build:production"
             },
             "development": {
-              "buildTarget": "third-party-contracts-portal:build:development"
+              "buildTarget": "appbase-po-ui:build:development"
             }
           },
           "defaultConfiguration": "development"

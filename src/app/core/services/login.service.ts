@@ -1,17 +1,47 @@
-// import { Injectable } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { PoStorageService } from '@po-ui/ng-storage';
+import { environment } from '../../../environments/environment';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class LoginService {
-//   private apiUrl = '/api/UserApp/login'; // endpoint da API
+export interface PoLoginForm {
+  login: string;
+  password: string;
+  rememberUser?: boolean;
+}
 
-//   constructor(private http: HttpClient) {}
+@Injectable({
+  providedIn: 'root'
+})
+export class LoginService {
+ private apiUrl = `${environment.apiEndpointPath}${environment.apiUri}`; // <-- Usando environment
+  // private apiUrl = '/api/UserApp/login';
+  private loggedInSubject = new BehaviorSubject<boolean>(false);
 
-//   login(username: string, password: string): Observable<any> {
-//     const body = { username, password };
-//     return this.http.post<any>(this.apiUrl, body);
-//   }
-// }
+  constructor(
+    private http: HttpClient,
+    private storage: PoStorageService
+  ) {}
+
+  // Observable para AuthGuard
+  isLoggedIn$(): Observable<boolean> {
+    return this.loggedInSubject.asObservable();
+  }
+
+  // Atualiza estado de login
+  setLoggedIn(value: boolean) {
+    this.loggedInSubject.next(value);
+  }
+
+  // Login via API
+  login(body: PoLoginForm): Observable<any> {
+    return this.http.post<any>(this.apiUrl, body);
+  }
+
+  // Logout
+  async logout() {
+    await this.storage.remove('isLoggedIn');
+    await this.storage.remove('username');
+    this.setLoggedIn(false);
+  }
+}

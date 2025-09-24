@@ -4,13 +4,17 @@
 
 export const environment = {
   production: false,
-  apiEndpointPath: 'https://httpbin.org',
-  // apiEndpointPath: 'https://www.freeprojectapi.com',
-  username: '',
-  password: '',
-  wso2TokenUrl: '',
-  clientId: '',
-  clientSecret: 'a'
+
+  // mudar no proxy também
+  // apiEndpointPath: 'https://httpbin.org', 
+  // apiUri: '/basic-auth/',
+  apiEndpointPath: 'https://www.freeprojectapi.com',
+  apiUri: '/api/UserApp/login',
+  username: 'admin',
+  password: 'admin',
+  // wso2TokenUrl: '',
+  // clientId: '',
+  // clientSecret: 'a'
 };
 
 // Alterado para apontar para o endpoint aws do Protheus

@@ -13,6 +13,7 @@ import { isEmpty } from 'lodash';
 import { Router, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BranchesService } from '../../core/services/branches.service';
+import { LoginService } from '../../core/services/login.service';
 import { split } from 'lodash';
 import { CoreService } from '../../core/services/core.service';
 import { finalize, first } from 'rxjs';
@@ -33,6 +34,14 @@ import { finalize, first } from 'rxjs';
   styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent implements OnInit {
+
+    constructor(
+    public loginService: LoginService, // <--- deve ser público
+    private router: Router,
+    private branchesService: BranchesService
+  ) {}
+
+  [x: string]: any;
   readonly menus: Array<PoMenuItem> = [
     {
       label: 'Dashboard',
@@ -67,10 +76,7 @@ export class MainLayoutComponent implements OnInit {
   firstBranch: string = '';
   branchesOptions: any = [];
 
-  constructor(
-    private router: Router,
-    private branchesService: BranchesService
-  ) {}
+
 
   ngOnInit(): void {
     this.onLoadBranches();
@@ -102,4 +108,11 @@ export class MainLayoutComponent implements OnInit {
   isMainScreen() {
     return this.router.url.split('/').length > 2;
   }
+
+  logout() {
+  this.loginService.logout().then(() => {
+    this.router.navigate(['/login']);
+  });
+}
+
 }

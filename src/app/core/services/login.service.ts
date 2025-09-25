@@ -14,8 +14,8 @@ export interface PoLoginForm {
   providedIn: 'root'
 })
 export class LoginService {
- private apiUrl = `${environment.apiEndpointPath}${environment.apiUri}`; // <-- Usando environment
-  // private apiUrl = '/api/UserApp/login';
+ private apiUrl = `${environment.apiLoginUrl}${environment.apiLoginUri}`; // <-- Usando environment
+  // private apiUrl = '/login';
   private loggedInSubject = new BehaviorSubject<boolean>(false);
 
   constructor(

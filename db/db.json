@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "login": "admin",
+      "password": "admin",
+      "rememberUser": false,
+      "id": 1
+    },
+    {
+      "login": "stark",
+      "password": "123456",
+      "rememberUser": false,
+      "id": 2
+    },
+    {
+      "username": "murilo",
+      "password": "senha",
+      "id": 3
+    }
+  ]
+}

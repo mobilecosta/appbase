@@ -30,7 +30,7 @@ export class LoginComponent {
   ) {}
 
   // Recebe qualquer evento do template
-  onLoginEvent(event: unknown) {
+  onLoginEvent(event: any) {
     const formData = event as PoLoginForm; // cast seguro
     this.onLogin(formData);
   }

@@ -5,13 +5,22 @@
 export const environment = {
   production: false,
 
+  // fake api para testes
+  apiEndpointPath: 'http://localhost:3000',
+  apiLoginUrl: 'http://localhost:3000',
+  apiLoginUri: '/login',
+  username: 'stark',
+  password: '123456',
+
   // mudar no proxy também
   // apiEndpointPath: 'https://httpbin.org', 
   // apiUri: '/basic-auth/',
-  apiEndpointPath: 'https://www.freeprojectapi.com',
-  apiUri: '/api/UserApp/login',
-  username: 'admin',
-  password: 'admin',
+
+  // apiEndpointPath: 'https://www.freeprojectapi.com',
+  // apiUri: '/api/UserApp/login',
+  // username: 'admin',
+  // password: 'admin',
+
   // wso2TokenUrl: '',
   // clientId: '',
   // clientSecret: 'a'

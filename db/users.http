@@ -1,0 +1,13 @@
+# Busca usuários
+GET http://localhost:3000/users
+
+###
+
+# inclusão de usuário
+POST http://localhost:3000/users
+content-type: application/json
+
+{
+    "username": "murilo",
+    "password": "senha"
+}

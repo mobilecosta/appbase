@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  PoAvatarModule,
   PoMenuItem,
   PoMenuModule,
   PoModule,
@@ -17,6 +18,7 @@ import { LoginService } from '../../core/services/login.service';
 import { split } from 'lodash';
 import { CoreService } from '../../core/services/core.service';
 import { finalize, first } from 'rxjs';
+import { LoginResponse } from '../../core/services/login.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -29,14 +31,15 @@ import { finalize, first } from 'rxjs';
     RouterOutlet,
     SharedModule,
     FormsModule,
+    PoAvatarModule,
   ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent implements OnInit {
-
-    constructor(
-    public loginService: LoginService, // <--- deve ser público
+  user: LoginResponse['user'] | null = null;
+  constructor(
+    private loginService: LoginService,
     private router: Router,
     private branchesService: BranchesService
   ) {}
@@ -76,21 +79,25 @@ export class MainLayoutComponent implements OnInit {
   firstBranch: string = '';
   branchesOptions: any = [];
 
+  ngOnInit() {
+    // this.onLoadBranches();
 
-
-  ngOnInit(): void {
-    this.onLoadBranches();
+    // Inscreve-se no observable do usuário logado
+    this.loginService.user$().subscribe((user) => {
+      this.user = user;
+      console.log(user, ' Main Layout')
+    });
   }
 
-  private onLoadBranches() {
-    // this.branchesOptions = this.branchesService.branches.map((branch: any) => (
-    //   {
-    //   label: branch.cgc,
-    //   value: branch.code,
-    // }));
+  // private onLoadBranches() {
+  //   // this.branchesOptions = this.branchesService.branches.map((branch: any) => (
+  //   //   {
+  //   //   label: branch.cgc,
+  //   //   value: branch.code,
+  //   // }));
 
-    // this.firstBranch = this.branchesService.selBranch;
-  }
+  //   // this.firstBranch = this.branchesService.selBranch;
+  // }
 
   onChangeBranch(branch: string): void {
     this.branchesService.selBranch = branch;
@@ -109,10 +116,8 @@ export class MainLayoutComponent implements OnInit {
     return this.router.url.split('/').length > 2;
   }
 
-  logout() {
-  this.loginService.logout().then(() => {
+  async logout() {
+    await this.loginService.logout();
     this.router.navigate(['/login']);
-  });
-}
-
+  }
 }

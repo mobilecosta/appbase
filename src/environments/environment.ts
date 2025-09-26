@@ -4,13 +4,16 @@
 
 export const environment = {
   production: false,
+  apiBaseUrl: 'http://localhost:3000',
+  api: {
+    login: '/login',
+    users: '/users',
+    contracts: '/contracts',
+  }
+};
 
-  // fake api para testes
-  apiEndpointPath: 'http://localhost:3000',
-  apiLoginUrl: 'http://localhost:3000',
-  apiLoginUri: '/login',
-  username: 'stark',
-  password: '123456',
+  // export const environment = {
+  // apiEndpointPath: 'http://localhost:3000',
 
   // mudar no proxy também
   // apiEndpointPath: 'https://httpbin.org', 
@@ -24,7 +27,7 @@ export const environment = {
   // wso2TokenUrl: '',
   // clientId: '',
   // clientSecret: 'a'
-};
+// };
 
 // Alterado para apontar para o endpoint aws do Protheus
 // export const environment = {

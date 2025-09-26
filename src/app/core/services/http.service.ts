@@ -1,32 +1,34 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ApiService } from './api.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class HttpService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private api: ApiService) {}
 
-  get(endpoint: string, params?: any, headers?: any): Observable<any> {
-    return this.http.get<any>(`${environment.apiEndpointPath}/${endpoint}`, JSON.parse(JSON.stringify({params, headers})));
+  // GET genérico
+  get(url: string, params?: any, headers?: any): Observable<any> {
+    const options = { params, headers: headers ? new HttpHeaders(headers) : undefined };
+    return this.http.get<any>(url, options);
   }
 
-  post(endpoint: string, body: any, params?: any, headers?: any): Observable<any> {
-    const options = {
-      params,
-      headers: headers ? new HttpHeaders(headers) : undefined
-    };
-    return this.http.post<any>(`${environment.apiEndpointPath}/${endpoint}`, body, options);
+  // POST genérico
+  post(url: string, body: any, params?: any, headers?: any): Observable<any> {
+    const options = { params, headers: headers ? new HttpHeaders(headers) : undefined };
+    return this.http.post<any>(url, body, options);
   }
 
-  put(endpoint: string, body: any, params?: any, headers?: any): Observable<any> {
-    return this.http.put<any>(`${environment.apiEndpointPath}/${endpoint}`, body, JSON.parse(JSON.stringify({params, headers})));
+  // PUT genérico
+  put(url: string, body: any, params?: any, headers?: any): Observable<any> {
+    const options = { params, headers: headers ? new HttpHeaders(headers) : undefined };
+    return this.http.put<any>(url, body, options);
   }
 
-  delete(endpoint: string, params?: any, headers?: any): Observable<any> {
-    return this.http.delete<any>(`${environment.apiEndpointPath}/${endpoint}`, JSON.parse(JSON.stringify({params, headers})));
+  // DELETE genérico
+  delete(url: string, params?: any, headers?: any): Observable<any> {
+    const options = { params, headers: headers ? new HttpHeaders(headers) : undefined };
+    return this.http.delete<any>(url, options);
   }
 }

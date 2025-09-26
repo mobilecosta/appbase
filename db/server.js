@@ -1,42 +1,52 @@
-const jsonServer = require('json-server');
+const jsonServer = require("json-server");
 const server = jsonServer.create();
-const router = jsonServer.router('db/db.json');
-const middlewares = jsonServer.defaults();
+const router = jsonServer.router("db/db.json"); // aponta para seu db.json
+const middlewares = jsonServer.defaults({
+  noCors: false, // garante que o JSON Server adiciona headers CORS
+});
 
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-// Rota fake de login (não conflita com /users)
-server.post('/login', (req, res) => {
-  const { username, password } = req.body;
+// 🔑 Rota fake de login
+server.post("/login", (req, res) => {
+  const { login, password } = req.body;
   const db = router.db;
-  const user = db.get('users').find({ login: username, password }).value();
+  const user = db.get("users").find({ login, password }).value();
 
   if (user) {
     return res.json({
       success: true,
-      token: 'fake-jwt-token-123456',
-      user: { id: user.id, name: user.name, login: user.login }
+      token: "fake-jwt-token-123456",
+      user: {
+        id: user.id,
+        login: user.login,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+      },
     });
   }
 
-  res.status(401).json({ success: false, message: 'Usuário ou senha inválidos' });
+  res
+    .status(401)
+    .json({ success: false, message: "Usuário ou senha inválidos" });
 });
 
-// Middleware para proteger rotas de contratos
+// Protege rotas com token fake (exemplo: /contracts)
 server.use((req, res, next) => {
-  if (req.path.startsWith('/contracts')) {
+  if (req.path.startsWith("/contracts")) {
     const authHeader = req.headers.authorization;
-    if (!authHeader || authHeader !== 'Bearer fake-jwt-token-123456') {
-      return res.status(401).json({ message: 'Não autorizado' });
+    if (!authHeader || authHeader !== "Bearer fake-jwt-token-123456") {
+      return res.status(401).json({ message: "Não autorizado" });
     }
   }
   next();
 });
 
-// Depois de todas as rotas customizadas, use o router padrão
+// Rotas padrões do JSON Server
 server.use(router);
 
 server.listen(3000, () => {
-  console.log('🚀 JSON Server rodando em http://localhost:3000');
+  console.log("🚀 Fake API rodando em http://localhost:3000");
 });

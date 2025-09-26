@@ -9,16 +9,16 @@ import { LoginService, PoLoginForm } from '../../core/services/login.service';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, PoPageLoginModule],
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
 })
 export class LoginComponent {
 
-    literals: PoPageLoginLiterals = {
+  literals: PoPageLoginLiterals = {
     welcome: 'Bem-vindo ao Sistema de Gestão de Notas',
-    registerUrl: 'Configurações Avançadas',
-    rememberUser: 'Lembrar usuário',
-    loginLabel: 'Usuário',
-    loginPlaceholder: 'Insira seu usuário de acesso',
+    registerUrl: 'Configurações Avançadas',
+    rememberUser: 'Lembrar usuário',
+    loginLabel: 'Usuário',
+    loginPlaceholder: 'Insira seu usuário de acesso',
     passwordLabel: 'Senha',
     passwordPlaceholder: 'Insira sua senha de acesso',
   };
@@ -29,24 +29,18 @@ export class LoginComponent {
     private poNotification: PoNotificationService
   ) {}
 
-  // Recebe qualquer evento do template
-  onLoginEvent(event: any) {
-    const formData = event as PoLoginForm; // cast seguro
-    this.onLogin(formData);
-  }
-
-  private onLogin(formData: PoLoginForm) {
-    this.loginService.login(formData).subscribe({
-      next: res => {
-        if (res?.success) {
-          this.loginService.setLoggedIn(true);
+  // Evento disparado pelo PoPageLogin
+  onLogin(event: PoLoginForm) {
+    this.loginService.login(event).subscribe({
+      next: (res) => {
+        if (res.success) {
           this.poNotification.success('Login realizado com sucesso!');
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard']); // redireciona após login
         } else {
           this.poNotification.error('Usuário ou senha inválidos!');
         }
       },
-      error: () => this.poNotification.error('Erro ao tentar logar!')
+      error: () => this.poNotification.error('Erro ao tentar logar!'),
     });
   }
 }

@@ -15,22 +15,9 @@ export class BranchesService {
 
   constructor(private http: HttpService) {}
 
-  // getUserBranches(): Observable<any> {
-  //   return this.http
-  //     .get('f3/branches', { params: { pagesize: '9999' } })
-  //     .pipe(
-  //       tap((response: any) => {
-  //         const branches = response.items || [];
-  //         if (branches.length > 0) {
-  //           this.selBranch = branches[0].code;
-  //           this.branches = branches || [];
-  //         }
-  //       })
-  //     );
-  // }
   getUserBranches(): Observable<any> {
     return this.http
-      .get('basic-auth/admin/123456')
+      .get('f3/branches', { params: { pagesize: '9999' } })
       .pipe(
         tap((response: any) => {
           const branches = response.items || [];
@@ -41,6 +28,7 @@ export class BranchesService {
         })
       );
   }
+
   getNameBranchLogged(): string {
     return get(
       find(this.branches, (branch: any) => {

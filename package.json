@@ -3,10 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "backend": "json-server --watch db/db.json --port 3000",
+    "fake-api": "node db/server.js",
+    "start:all": "concurrently \"npm run start\" \"npm run fake-api\""
   },
   "private": true,
   "dependencies": {
@@ -33,7 +36,9 @@
     "@angular/compiler-cli": "~19.0.0",
     "@types/jasmine": "~5.1.0",
     "@types/lodash": "^4.17.16",
+    "concurrently": "^9.2.1",
     "jasmine-core": "~5.6.0",
+    "json-server": "^0.17.3",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",

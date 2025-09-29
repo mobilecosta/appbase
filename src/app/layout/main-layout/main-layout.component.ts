@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  PoAvatarModule,
   PoMenuItem,
   PoMenuModule,
   PoModule,
@@ -13,9 +14,11 @@ import { isEmpty } from 'lodash';
 import { Router, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BranchesService } from '../../core/services/branches.service';
+import { LoginService } from '../../core/services/login.service';
 import { split } from 'lodash';
 import { CoreService } from '../../core/services/core.service';
 import { finalize, first } from 'rxjs';
+import { LoginResponse } from '../../core/services/login.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -28,11 +31,20 @@ import { finalize, first } from 'rxjs';
     RouterOutlet,
     SharedModule,
     FormsModule,
+    PoAvatarModule,
   ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent implements OnInit {
+  user: LoginResponse['user'] | null = null;
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private branchesService: BranchesService
+  ) {}
+
+  [x: string]: any;
   readonly menus: Array<PoMenuItem> = [
     {
       label: 'Dashboard',
@@ -67,24 +79,25 @@ export class MainLayoutComponent implements OnInit {
   firstBranch: string = '';
   branchesOptions: any = [];
 
-  constructor(
-    private router: Router,
-    private branchesService: BranchesService
-  ) {}
+  ngOnInit() {
+    // this.onLoadBranches();
 
-  ngOnInit(): void {
-    this.onLoadBranches();
+    // Inscreve-se no observable do usuário logado
+    this.loginService.user$().subscribe((user) => {
+      this.user = user;
+      console.log(user, ' Main Layout')
+    });
   }
 
-  private onLoadBranches() {
-    // this.branchesOptions = this.branchesService.branches.map((branch: any) => (
-    //   {
-    //   label: branch.cgc,
-    //   value: branch.code,
-    // }));
+  // private onLoadBranches() {
+  //   // this.branchesOptions = this.branchesService.branches.map((branch: any) => (
+  //   //   {
+  //   //   label: branch.cgc,
+  //   //   value: branch.code,
+  //   // }));
 
-    // this.firstBranch = this.branchesService.selBranch;
-  }
+  //   // this.firstBranch = this.branchesService.selBranch;
+  // }
 
   onChangeBranch(branch: string): void {
     this.branchesService.selBranch = branch;
@@ -101,5 +114,10 @@ export class MainLayoutComponent implements OnInit {
   // Se esta na tela principal
   isMainScreen() {
     return this.router.url.split('/').length > 2;
+  }
+
+  async logout() {
+    await this.loginService.logout();
+    this.router.navigate(['/login']);
   }
 }

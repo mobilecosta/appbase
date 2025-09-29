@@ -1,40 +1,26 @@
-import { CanActivateFn, Router } from '@angular/router';
-import { inject } from '@angular/core';
-import { StorageService } from '../services/storage.service';
-import { BranchesService } from '../services/branches.service';
-import { catchError, of } from "rxjs";
-import { first } from "rxjs/operators";
-import { isEmpty } from 'lodash';
-import { PoNotificationService } from '@po-ui/ng-components';
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { map, Observable } from 'rxjs';
+import { LoginService } from '../services/login.service';
 
-export const authGuard: CanActivateFn = (route) => {
-  const storageService = inject(StorageService);
-  const branchesService = inject(BranchesService);
-  const poNotification = inject(PoNotificationService);
-  const router = inject(Router);
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
 
-  const isLoggedIn = !!storageService.getToken();
+  constructor(
+    private loginService: LoginService,
+    private router: Router
+  ) {}
 
-  let isBranchDefined = false;
-
-  // return true; // Permite o acesso à rota
-  return branchesService.getUserBranches()
-    .pipe(
-      first(),
-      catchError(() => of(false))
-    )
-    .toPromise()
-    .then((branches: any) => {
-      const isBranchDefined = !isEmpty(branches);
-      if (!isBranchDefined) {
-        poNotification.warning('Nenhuma filial encontrada para o usuário logado.');
-        router.navigate(['/login']);
-        storageService.removeToken();
-      }
-      return isBranchDefined;
-    })
-    .catch(() => {
-      router.navigate(['/login']);
-      return false;
-    });
-};
+  canActivate(): Observable<boolean> {
+    return this.loginService.isLoggedIn$().pipe(
+      map(isLoggedIn => {
+        if (!isLoggedIn) {
+          this.router.navigate(['/login']);
+        }
+        return isLoggedIn;
+      })
+    );
+  }
+}

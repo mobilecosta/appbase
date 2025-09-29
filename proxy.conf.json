@@ -1,8 +1,8 @@
 {
-  "/api": {
-    "target": "environment.apiEndpointPath",
+   "/api": {
+    "target": "https://www.freeprojectapi.com",
     "secure": true,
     "changeOrigin": true,
-    "pathRewrite": { "^/api": "" }
+    "pathRewrite": { "^/api": "/api" }
   }
 }

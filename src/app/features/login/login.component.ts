@@ -1,21 +1,20 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
-import { PoModule, PoPageModule } from '@po-ui/ng-components';
-import { PoPageLoginAuthenticationType, PoPageLoginLiterals, PoPageLoginModule } from '@po-ui/ng-templates';
-import { StorageService } from '../../core/services/storage.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { PoPageLoginLiterals, PoPageLoginModule } from '@po-ui/ng-templates';
+import { PoNotificationService } from '@po-ui/ng-components';
+import { LoginService, PoLoginForm } from '../../core/services/login.service';
 
 @Component({
   selector: 'app-login',
-  imports: [PoPageModule, PoModule, SharedModule, PoPageLoginModule ],
+  standalone: true,
+  imports: [CommonModule, PoPageLoginModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  readonly authenticationType = PoPageLoginAuthenticationType.Bearer;
 
   literals: PoPageLoginLiterals = {
-    welcome: 'Bem-vindo ao Sistema de Gestão de Notas',
+    welcome: 'Bem-vindo ao Sistema de Gestão de Notas',
     registerUrl: 'Configurações Avançadas',
     rememberUser: 'Lembrar usuário',
     loginLabel: 'Usuário',
@@ -23,16 +22,25 @@ export class LoginComponent {
     passwordLabel: 'Senha',
     passwordPlaceholder: 'Insira sua senha de acesso',
   };
-  
 
-  constructor(private storageService: StorageService, private router: Router) { }
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private poNotification: PoNotificationService
+  ) {}
 
-  login(event: any) {
-    if (event.login === 'admin' && event.password === '123456') {
-      const profile = { name: 'Joaquim Martins'};
-      const profiBase64 = btoa(JSON.stringify(profile));
-      this.storageService.setToken(profiBase64);
-      this.router.navigate(['/dashboard']);
-    }
+  // Evento disparado pelo PoPageLogin
+  onLogin(event: PoLoginForm) {
+    this.loginService.login(event).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.poNotification.success('Login realizado com sucesso!');
+          this.router.navigate(['/dashboard']); // redireciona após login
+        } else {
+          this.poNotification.error('Usuário ou senha inválidos!');
+        }
+      },
+      error: () => this.poNotification.error('Erro ao tentar logar!'),
+    });
   }
 }

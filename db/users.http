@@ -1,0 +1,46 @@
+# Listar usuários
+GET http://localhost:3000/users
+
+### --------------------------------
+
+# Buscar usuário por ID
+GET http://localhost:3000/users/3
+
+### --------------------------------
+
+# Criar usuário
+POST http://localhost:3000/users
+content-type: application/json
+
+{
+    "login": "teste",
+    "password": "senha"
+}
+### --------------------------------
+
+# Deletar usuário
+DELETE http://localhost:3000/users/4
+content-type: application/json
+
+### --------------------------------
+
+
+# Editar usuário
+PUT  http://localhost:3000/users/
+Content-type: text/html
+
+{
+    "login": "teste",
+    "password": "senha"
+}
+
+### --------------------------------
+
+# Login de usuário
+POST http://localhost:3000/login
+content-type: application/json
+
+{
+  "login": "stark", 
+  "password": "123456"
+}

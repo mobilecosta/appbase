@@ -10,10 +10,13 @@
 
   <ng-template #PalleteTemplate>
     <div class="toolbar-container">
-      <span class="toolbar-profile-name">Joaquim Martins</span>
+      <span *ngIf="user">{{ user.email || user.login }}</span>
       <po-avatar
         class="profile-picture"
-        p-src="https://wallpaperaccess.com/full/2330391.jpg"
+        *ngIf="user"
+        p-loading="lazy"
+        [title]="user.login || user.name"
+        p-src="{{user.avatar}}"
       >
       </po-avatar>
       <po-button
@@ -22,6 +25,7 @@
         [p-danger]="true"
         class="po-sm-auto"
         p-icon="an an-sign-out"
+        p-click="logout($event)"
       ></po-button>
     </div>
   </ng-template>
@@ -33,7 +37,7 @@
     p-logo="assets/images/logo-conceitho-black.png"
     [p-menus]="menus"
   >
-    <div *p-menu-header-template >
+    <div *p-menu-header-template>
       <po-select
         [ngModel]="firstBranch"
         [p-options]="branchesOptions"
@@ -43,6 +47,7 @@
       >
       </po-select>
     </div>
+    <button po-button p-label="Logout" (click)="logout()"></button>
   </po-menu>
 
   <router-outlet />

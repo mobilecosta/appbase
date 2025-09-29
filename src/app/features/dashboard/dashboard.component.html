@@ -7,7 +7,7 @@
     ></po-loading-overlay>
 
     <div class="page-header_container po-lg-12">
-      <h1 class="po-lg-12">Bem-vindo Joaquim Martins,</h1>
+      <h1 class="po-lg-12" *ngIf="user">Bem-vindo {{ user.name || user.login }},</h1>
       <div class="element"></div>
 
       <app-indicator-card

@@ -71,7 +71,7 @@ export class LoginService {
 
   /** Login via API */
   login(body: PoLoginForm): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>("https://api.freeprojectapi.com/api/UserApp/login", body).pipe(
+    return this.http.post<LoginResponse>(this.api.loginUrl, body).pipe(
       tap(res => {
         if (res.success) {
           // Armazena token e usuário

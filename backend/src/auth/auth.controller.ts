@@ -1,5 +1,5 @@
 import { Body, Controller, HttpException, Post } from '@nestjs/common';
-import type User from './user';
+import type { User } from '@appbase/core';
 import { UserRepository } from './user.repository';
 
 @Controller('auth')

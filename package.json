@@ -1,0 +1,9 @@
+{
+  "name": "appbase",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend",
+    "core"
+  ]
+}

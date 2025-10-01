@@ -1,6 +1,5 @@
-import { id } from './../../node_modules/ci-info/index.d';
 import { Injectable } from '@nestjs/common';
-import User from './user';
+import {User} from '@appbase/core';
 import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()

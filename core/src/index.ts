@@ -1,3 +1,4 @@
-const x = 123
-
-export { x }
+export * from './user'
+export * from './service';
+export * from './menu';
+export * from './customer';

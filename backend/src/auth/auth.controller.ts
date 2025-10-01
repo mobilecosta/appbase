@@ -1,6 +1,7 @@
 import { Body, Controller, HttpException, Post } from '@nestjs/common';
 import type { User } from '@appbase/core';
 import { UserRepository } from './user.repository';
+import RegisterUser from '@appbase/core/src/user/service/registerUser';
 
 @Controller('auth')
 export class AuthController {
@@ -13,6 +14,9 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() user: User) {
+    const userCase = new RegisterUser();
+    await userCase.execute(user);
+
     const userExisting = await this.repo.findByEmail(user.email);
     if (userExisting) {
       throw new HttpException('Usuário já existe', 400);

@@ -9,13 +9,14 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  login    String  @unique
-  password String
-  name     String
-  email    String  @unique
-  avatar   String?
-  role     String?
+  id     String  @id @default(uuid()) // será o mesmo do auth.users
+  login  String  @unique
+  name   String
+  email  String  @unique
+  avatar String?
+  role   String?
 
   @@map("users")
 }
+
+//password removido para usar do auth.user do supabase por enquanto

@@ -9,7 +9,10 @@ export const environment = {
     login: '/login',
     users: '/users',
     contracts: '/contracts',
-  }
+  },
+
+  SUPABASE_URL: 'https://vyaanexndrntezuqilnl.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5YWFuZXhuZHJudGV6dXFpbG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNTIzNTUsImV4cCI6MjA3NDcyODM1NX0.kfqf7r4u-ZKTHetvx1T6j8SF4NsRZY6FOv_GWjfiBZE',
 };
 
   // export const environment = {

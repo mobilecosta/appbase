@@ -22,10 +22,10 @@ import { LoginSupabaseService } from '../../core/services/supabase/loginSupabase
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  loginForm: PoLoginForm = {
-    login: '',
-    password: '',
-  };
+  // loginForm: PoLoginForm = {
+  //   login: '',
+  //   password: '',
+  // };
 
   literals: PoPageLoginLiterals = {
     welcome: 'Bem-vindo ao Sistema de Gestão de Notas',
@@ -43,6 +43,18 @@ export class LoginComponent {
     private poNotification: PoNotificationService
   ) {}
 
+  // login.component.ts
+  onLoginSubmit(event: any) {
+    this.loginSupabaseService
+      .signIn(event.login, event.password)
+      .then((user) => {
+        console.log('Usuário logado:', user);
+        this.router.navigate(['/dashboard']);
+      })
+      .catch((err) => console.error('Erro ao logar:', err));
+  }
+
+  // server.js
   // Evento disparado pelo PoPageLogin
   // onLogin(event: PoLoginForm) {
   //   this.loginService.login(event).subscribe({
@@ -57,19 +69,4 @@ export class LoginComponent {
   //     error: () => this.poNotification.error('Erro ao tentar logar!'),
   //   });
   // }
-
-   async onLoginSubmit(event: { login: string; password: string }) {
-    const { login, password } = event;
-    console.log('Login:', event.login);
-    console.log('Senha:', event.password);
-
-    try {
-      const user = await this.loginSupabaseService.signIn(login, password);
-      console.log('Usuário logado:', user);
-      // Aqui você pode redirecionar ou armazenar o user na store
-    } catch (err: any) {
-      console.error('Erro ao logar:', err);
-      alert(err.message);
-    }
-  }
 }

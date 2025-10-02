@@ -1,7 +1,5 @@
-// src/app/core/services/supabase/loginSupabase.service.ts
 import { Injectable } from '@angular/core';
 import { SupabaseService } from './supabase.service';
-import { User } from '../../models/user.model'; // ajuste conforme sua estrutura
 
 @Injectable({
   providedIn: 'root',
@@ -9,38 +7,49 @@ import { User } from '../../models/user.model'; // ajuste conforme sua estrutura
 export class LoginSupabaseService {
   constructor(private supabaseService: SupabaseService) {}
 
-  async signIn(login: string, password: string) {
-    // Mapeia login -> email na tabela 'users'
-    const email = await this.mapLoginToEmail(login);
-
-    const { data, error } = await this.supabaseService.client.auth.signInWithPassword({
+  // Criar usuário (signUp)
+  async signUp(email: string, password: string) {
+    const { data, error } = await this.supabaseService.client.auth.signUp({
       email,
       password,
     });
-
     if (error) throw error;
-    return data.user;
+    return data.user; // retorna o usuário criado
   }
 
-  private async mapLoginToEmail(login: string): Promise<string> {
-    const { data, error } = await this.supabaseService.client
-      .from('users')
-      .select('email')
-      .eq('login', login)
-      .single();
+  // Login (signIn)
+  async signIn(login: string, password: string) {
+    // Mostra o que vai ser enviado para o Supabase
+    console.log('Tentando logar com:', { login, password });
 
-    if (error || !data?.email) throw new Error('Usuário não encontrado');
-    return data.email;
-  }
-  
-  // Recebe login e senha diretamente do PoPageLogin
-  async onLoginSubmit(event: { login: string; password: string }) {
-    const { login, password } = event;
-    try {
-      const user = await this.supabaseService.signIn(login, password);
-      console.log('Usuário logado:', user);
-    } catch (err) {
-      console.error('Erro ao logar:', err);
+    const email = login; // mapear login para email
+    const { data, error } =
+      await this.supabaseService.client.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+    if (error) {
+      console.error('Erro ao logar:', error);
+      throw error;
     }
+    console.log('Usuário logado:', data.user);
+    return data.user; // retorna usuario logado
+  }
+
+  // Recuperar usuário atual
+  async getCurrentUser() {
+    const {
+      data: { user },
+      error,
+    } = await this.supabaseService.client.auth.getUser();
+    if (error) throw error;
+    return user;
+  }
+
+  // Logout
+  async signOut() {
+    const { error } = await this.supabaseService.client.auth.signOut();
+    if (error) throw error;
   }
 }

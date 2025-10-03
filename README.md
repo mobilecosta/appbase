@@ -59,3 +59,4 @@ npm start
 * Rotas protegidas exigem token válido.
 * Logout limpa token e usuário automaticamente.
 
+teste

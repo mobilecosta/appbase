@@ -20,3 +20,13 @@ model User {
 }
 
 //password removido para usar do auth.user do supabase por enquanto
+
+model Menu {
+  id         Int     @id @default(autoincrement())
+  label      String
+  link       String
+  icon       String?
+  shortLabel String?
+
+  @@map("menus") // nome real da tabela no banco
+}

@@ -58,5 +58,3 @@ npm start
 * Avatar e email vêm do `db.json`.
 * Rotas protegidas exigem token válido.
 * Logout limpa token e usuário automaticamente.
-
-teste
